@@ -1,7 +1,7 @@
 # Ecomerce Backend
 
 --------------------
-dbestech is a simple backend application created by Casey Ochieng. It serves as a foundation for building web applications, providing basic functionality for handling requests and interacting with a database.
+db Store is a simple backend application created by Casey Ochieng. It serves as a foundation for building web applications, providing basic functionality for handling requests and interacting with a database.
 
 ## Installation
 

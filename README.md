@@ -115,7 +115,6 @@ mongoose
 
 ```javascript
 // This code snippet defines the routes related to authentication, such as registration, login, password reset, etc.
-
 // Defines routes for registering a new user, logging in, resetting passwords, and verifying OTP.
 // These routes handle user authentication and provide endpoints for user-related functionalities.
 const express = require("express");

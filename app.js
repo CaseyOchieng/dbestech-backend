@@ -18,10 +18,6 @@ Connects to a MongoDB database using the mongoose.connect method.
 If the database connection is successful, it starts the Express server to listen on the specified port.
 Logs a success message with the database connection details and the server URL.
 */
-
-
-
-
 const number = Math.round(Math.random() * 100);
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 4000;
@@ -39,7 +35,7 @@ app.options("*", cors());
 const authRouter = require('./routes/auth');
 
 
-app.use('/auth', authRouter)
+app.use('/', authRouter)
 
 mongoose
     .connect("")

@@ -38,7 +38,7 @@ const API = "/api/v1/";
 app.use(`${API}`, authRouter)
 
 mongoose
-    .connect("")
+    .connect("Please Enter your mongodb url")
     .then(() => {
         console.log(`Database connected and Running at ${number} ms. Happy Coding ✨! `);
         app.listen(port, () => {

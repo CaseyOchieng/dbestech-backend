@@ -33,9 +33,9 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.options("*", cors());
 const authRouter = require('./routes/auth');
+const API = "/api/v1/";
 
-
-app.use('/', authRouter)
+app.use(`${API}`, authRouter)
 
 mongoose
     .connect("")

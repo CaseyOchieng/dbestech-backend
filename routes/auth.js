@@ -1,15 +1,14 @@
-
-
-
 const express = require('express');
 const router = express.Router();
 
 router.post('/register', (req, res) => {
+    //validate the data before creating a user
+    //create a user in the database
     res.send('auth');
 });
 
 router.post('/login', (req, res) => {
-    res.send('auth');
+    res.status(201).json({ name: 'Casey', age: 20, });
 });
 
 router.post('/forgot-password', (req, res) => {

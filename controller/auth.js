@@ -1,10 +1,42 @@
 /*
 This code snippet exports a function named register that is an asynchronous function. It takes in two parameters, req and res, which represent the request and response objects in an Express.js application.Inside the function, there are two comments indicating that there should be validation of the data before creating a user and creating a user in the database. However, the actual implementation of these tasks is missing from the code snippet.Finally, the function sends the string 'auth' as the response using the res.send() method.
 */
+const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const { User } = require('../models/user');
+/*
+This code snippet defines a function called "register" that handles the registration of a user. It first validates the request data, then creates a new user in the database using the provided data and a hashed password. If validation fails, it returns an error response with the validation messages. If an error occurs during user creation, it returns a 500 error response with the error details.
+*/
 exports.register = async (req, res) => {
     //validate the data before creating a user
-    //create a user in the database
-    res.send('auth');
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const errorMessages = errors.array().map((error) => ({
+            field: error.path,
+            message: error.msg,
+        }));
+        return res.status(400).json({ error: errorMessages });
+    }
+    // tap into the database and create a new user in the user collection in the database.
+    try {
+        let user = new User({
+            ...req.body,
+            passwordHash: await bcrypt.hash(req.body.password, 8),
+        });
+        res.status(201).json(user);
+        user = await user.save();
+        if (!user) {
+            return res.status(500)
+                .json({
+                    type: 'Internal server error',
+                    message: 'could not create user'
+                });
+        }
+        // console.log(req.body);
+    } catch (error) {
+        return res.status(500).json({ type: error.message, message: error.message });
+    }
+
 };
 /*
 This code defines a function called login that uses async to handle asynchronous operations.

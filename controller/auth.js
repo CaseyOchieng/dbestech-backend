@@ -23,7 +23,6 @@ exports.register = async (req, res) => {
             ...req.body,
             passwordHash: await bcrypt.hash(req.body.password, 8),
         });
-        res.status(201).json(user);
         user = await user.save();
         if (!user) {
             return res.status(500)
@@ -32,7 +31,7 @@ exports.register = async (req, res) => {
                     message: 'could not create user'
                 });
         }
-        // console.log(req.body);
+        return res.status(201).json(user);
     } catch (error) {
         return res.status(500).json({ type: error.message, message: error.message });
     }
@@ -72,3 +71,4 @@ exports.resetPassword = async (req, res) => {
 
     res.send('auth');
 };
+

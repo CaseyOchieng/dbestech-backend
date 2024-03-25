@@ -53,7 +53,6 @@ The backend relies on the following dependencies:
 
 ```javascript
 This code snippet does the following:
-const number = Math.round(Math.random() * 100);
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 4000;
 const mongoose = require("mongoose");
@@ -77,12 +76,12 @@ mongoose
   )
   .then(() => {
     console.log(
-      `Database connected and Running at ${number} ms. Happy Coding ✨! `
+      `Database connected and Running. Happy Coding ✨! `
     );
     app.listen(port, () => {
       console.log("-------------------------🔥---------------------------");
       console.info(
-        `Server is running on http://localhost:${port} at ${number} ms`
+        `Server is running on http://localhost:${port} `
       );
     });
   })

@@ -33,6 +33,12 @@ exports.register = async (req, res) => {
         }
         return res.status(201).json(user);
     } catch (error) {
+        if (error.message.include('email_1 dup key')) {
+            return res.status(409).json({
+                type: 'AuthError',
+                message: ''
+            })
+        }
         return res.status(500).json({ type: error.message, message: error.message });
     }
 

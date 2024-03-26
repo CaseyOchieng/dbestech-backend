@@ -25,20 +25,20 @@ const mongoose = require("mongoose");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-require('dotenv').config();
 const app = express();
 
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 app.use(cors());
 app.options("*", cors());
+require('dotenv').config();
 const authRouter = require('./routes/auth');
 const API = "/api/v1/";
 
 app.use(`${API}`, authRouter)
 
 mongoose
-    .connect("put your link to your database  here")
+    .connect("put your mongodb url here")
     .then(() => {
         console.log(`Database connected and Running at ${number} ms. Happy Coding ✨! `);
         app.listen(port, () => {

@@ -148,6 +148,59 @@ Overall, this code snippet handles the login process by validating user credenti
 };
 // Login Function End
 
+exports.VerifyToken = async (req, res) => {
+    /*
+This code defines an asynchronous function named VerifyToken that checks
+if there is an access token in the request headers. If no token is found, it returns a JSON response with false.
+If an error occurs, it returns a 500 status with the error details. Finally, it sends the string 'auth' as the response.
+   */
+    try {
+        /* The code snippet you provided is checking if the authorization header exists in the req.headers object.
+            If it does not exist, the code will not proceed further and will likely result in an error.
+            If the header does exist, it will be assigned to the accessToken variable.
+        */
+        let accessToken = req.headers.authorization;
+
+        if (!accessToken) return res.json(false);
+        /*
+        The code you provided is written in JavaScript and it replaces the string 'Bearer ' with an empty string in the accessToken variable.
+        The trim() method is then called to remove any leading or trailing whitespace from the resulting string.
+        */
+        accessToken = accessToken.replace('Bearer ', '').trim();
+        /*
+        The code snippet const token = await Token.findOne({ accessToken }); is using the Mongoose model
+        Token to find a document in the database that matches the provided accessToken.
+        Here's a breakdown of what the code is doing:
+        Token.findOne() is a Mongoose method that searches for a document in the Token collection that matches the specified query.
+        { accessToken } is the query object that specifies the condition for the search. In this case, it's searching for a document where the accessToken field matches the value of the accessToken variable.
+        await is used to wait for the findOne() method to complete and return the result. Since it's an asynchronous operation, await ensures that the code execution pauses until the result is returned.
+        The result of the findOne() method is assigned to the token variable. If a matching document is found, it will be stored in the token variable. If no matching document is found, the token variable will be null.
+        So, in summary, this code is searching for a document in the Token collection that has an accessToken field matching the value of the accessToken variable.
+        */
+        const token = await Token.findOne({ accessToken });
+        if (!token) return res.json(false);
+        const tokenData = jwt.decode(token.refreshtoken);
+        /*
+        After finding the token, it decodes the refreshtoken property of the token using jwt.decode().
+        This function decodes the token without verifying its signature.
+        */
+        const user = await User.findById(tokenData.id);
+        if (!user) return res.json(false);
+        const isValid = jwt.verify(
+            token.refreshtoken,
+            REFRESH_TOKEN_SECRET);
+        if (!isValid) return res.json(false);
+        return res.json(true);
+        /*
+        It looks like you are using JWT for token verification.
+        This code first finds a user by their ID, then checks if the user exists. After that,
+        it verifies the refresh token using the JWT library and returns a boolean value based on the verification result.
+        */
+    } catch (error) {
+        return res.status(500).json({ type: error.name, message: error.message });
+    }
+};
+
 /*
 This code exports a function called forgotPassword as a module.
 When this function is called, it sends the string 'auth' as a response to the client making the request.
@@ -162,7 +215,7 @@ This code snippet exports an asynchronous function named verifyOTP
 that sends the string 'auth' as a response when called with request
 and response objects in a Node.js environment.
 */
-exports.verifyPasswordOTP = async (req, res) => {
+exports.verifyPasswordResetOTP = async (req, res) => {
 
     res.send('auth');
 };

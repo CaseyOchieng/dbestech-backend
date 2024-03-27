@@ -26,13 +26,16 @@ const validateUser = [
 
 ]
 
+
 router.post('/register', validateUser, authController.register);
 
 router.post('/login', authController.login);
 
+router.get('/verify', authController.VerifyToken);
+
 router.post('/forgot-password', authController.forgotPassword);
 
-router.post('/verify-otp', authController.verifyPasswordOTP);
+router.post('/verify-otp', authController.verifyPasswordResetOTP);
 
 router.post('/reset-password', authController.login);
 
